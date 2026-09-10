@@ -7,8 +7,8 @@
 
 @theme inline {
   /* Fonts */
-  --font-heading: 'Google Sans', system-ui, sans-serif;
-  --font-body: 'Google Sans', system-ui, sans-serif;
+  --font-heading: 'Urbanist', system-ui, sans-serif;
+  --font-body: 'Urbanist', system-ui, sans-serif;
 
   /* Surface Colors */
   --color-surface: var(--surface);
