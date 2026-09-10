@@ -7,8 +7,8 @@
 
 @theme inline {
   /* Fonts */
-  --font-heading: var(--font-manrope);
-  --font-body: var(--font-manrope);
+  --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
 
   /* Surface Colors */
   --color-surface: var(--surface);
@@ -144,7 +144,7 @@ body {
   background-size: 62px 62px, 62px 62px, 100% 100%;
   background-attachment: fixed;
   color: var(--text-primary);
-  font-family: var(--font-body), 'Manrope', system-ui, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.6;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -199,7 +199,7 @@ body {
 ──────────────────────────────────────────── */
 
 .font-heading {
-  font-family: var(--font-heading), 'Manrope', system-ui, sans-serif;
+  font-family: var(--font-heading);
 }
 
 .text-display-xl {
