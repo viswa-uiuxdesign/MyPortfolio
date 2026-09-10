@@ -383,7 +383,7 @@ const slideVariants = {
 
 function SectionLabel({ number, text, color = 'primary' }: { number: string; text: string; color?: 'primary'|'red'|'amber'|'green'|'purple' }) {
   const colorMap: Record<string, string> = { primary: 'text-[var(--primary)] bg-[var(--primary-subtle)]', red: 'text-red-600 bg-red-50', amber: 'text-amber-600 bg-amber-50', green: 'text-emerald-600 bg-emerald-50', purple: 'text-purple-600 bg-purple-50' };
-  return <span className={cn('text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full w-fit', colorMap[color])}>{number} / {text}</span>;
+  return <span className={cn('text-xs uppercase tracking-widest font-semibold px-2.5 py-1 rounded-full w-fit', colorMap[color])}>{number} / {text}</span>;
 }
 
 function tcls(type: UserFlowStep['type']): string {
@@ -401,8 +401,8 @@ function SlideCover({ project, mockups }: SlideProps) {
       <div className="w-full md:w-[42%] flex flex-col justify-center px-10 md:px-14 lg:px-20 py-10 gap-6 bg-[var(--surface)]">
         <div className="flex flex-col gap-6">
           <div className="flex flex-wrap gap-2">
-            <span className="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--primary)] px-3 py-1 bg-[var(--primary-subtle)] rounded-full">{project.category}</span>
-            <span className="text-[10px] uppercase tracking-[0.18em] font-semibold text-[var(--text-tertiary)] px-3 py-1 bg-[var(--surface-secondary)] rounded-full border border-[var(--border-primary)]">{project.industry}</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--primary)] px-3 py-1 bg-[var(--primary-subtle)] rounded-full">{project.category}</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--text-tertiary)] px-3 py-1 bg-[var(--surface-secondary)] rounded-full border border-[var(--border-primary)]">{project.industry}</span>
           </div>
           <div className="flex flex-col gap-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[var(--text-primary)] leading-[1.05] tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>{project.title}</h1>
@@ -434,14 +434,14 @@ function SlideContext({ project, mockups }: SlideProps) {
       <div className="w-full md:w-[45%] flex flex-col justify-center px-10 md:px-14 lg:px-20 py-10 gap-6">
         <div className="flex flex-col gap-5">
           <SectionLabel number="02" text="Context" />
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">What is {project.title}?</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">What is {project.title}?</h2>
           <p className="text-base text-[var(--text-secondary)] leading-relaxed">{cs.overview.body}</p>
         </div>
         <div className="flex flex-wrap gap-2">{project.tags.map((tag, i) => <span key={i} className="text-xs font-semibold px-3 py-1 rounded-full bg-[var(--surface-secondary)] border border-[var(--border-secondary)] text-[var(--text-secondary)]">{tag}</span>)}</div>
         <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[var(--border-secondary)]">
           {[{ label: 'Industry', value: project.industry }, { label: 'Platform', value: project.platform }, { label: 'Timeline', value: project.timeline }].map((item, i) => (
             <div key={i} className="flex flex-col gap-1">
-              <span className="text-[9px] uppercase tracking-widest font-bold text-[var(--text-tertiary)]">{item.label}</span>
+              <span className="text-[9px] uppercase tracking-widest font-semibold text-[var(--text-tertiary)]">{item.label}</span>
               <span className="text-sm font-semibold text-[var(--text-primary)]">{item.value}</span>
             </div>
           ))}
@@ -463,11 +463,11 @@ function SlideProblem({ project, story, mockups }: SlideProps) {
       <div className="w-full md:w-[50%] flex flex-col justify-center px-10 md:px-14 lg:px-20 py-10 gap-6">
         <div className="flex flex-col gap-6">
           <SectionLabel number="03" text="The Problem" color="red" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">"{cs.problem.heading}"</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">"{cs.problem.heading}"</h2>
           <p className="text-base text-[var(--text-secondary)] leading-relaxed">{cs.problem.body}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-red-600">Resulting Problems</p>
+          <p className="text-xs uppercase tracking-widest font-semibold text-red-600">Resulting Problems</p>
           <div className="flex flex-col gap-2.5">
             {story.painPoints.map((pp, i) => (
               <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-red-50 border border-red-100">
@@ -484,7 +484,7 @@ function SlideProblem({ project, story, mockups }: SlideProps) {
         <div className="absolute inset-0 bg-red-900/10 mix-blend-multiply pointer-events-none" />
         <div className="absolute bottom-6 left-6 right-6">
           <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 border border-red-100 shadow-lg">
-            <p className="text-[10px] uppercase tracking-widest font-bold text-red-600 mb-1">Before Redesign</p>
+            <p className="text-xs uppercase tracking-widest font-semibold text-red-600 mb-1">Before Redesign</p>
             <p className="text-sm text-[var(--text-secondary)] font-medium leading-relaxed">{story.beforeWorkflow.desc}</p>
           </div>
         </div>
@@ -499,16 +499,16 @@ function SlidePainPoints({ story, mockups }: SlideProps) {
       <div className="w-full md:w-[48%] flex flex-col justify-center px-10 md:px-14 lg:px-20 py-10 gap-6">
         <div className="flex flex-col gap-3">
           <SectionLabel number="04" text="User Pain Points" color="red" />
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">Core friction points</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">Core friction points</h2>
         </div>
         <div className="flex flex-col gap-4">
           {story.painPoints.map((pp, i) => (
             <div key={i} className="flex gap-4 p-5 rounded-2xl bg-[var(--surface-elevated)] border border-[var(--border-primary)] shadow-xs hover:shadow-sm transition-shadow">
-              <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold font-mono text-sm flex items-center justify-center shrink-0">{String(i + 1).padStart(2, '0')}</div>
+              <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 font-semibold font-mono text-sm flex items-center justify-center shrink-0">{String(i + 1).padStart(2, '0')}</div>
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">{pp.frustration}</p>
                 <div className="flex items-start gap-1.5">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-red-500 mt-0.5 shrink-0">Impact</span>
+                  <span className="text-[9px] uppercase tracking-wider font-semibold text-red-500 mt-0.5 shrink-0">Impact</span>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{pp.impact}</p>
                 </div>
               </div>
@@ -516,7 +516,7 @@ function SlidePainPoints({ story, mockups }: SlideProps) {
           ))}
         </div>
         <div className="flex flex-col gap-2 pt-4 border-t border-[var(--border-secondary)]">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-[var(--text-tertiary)]">Design Focus</p>
+          <p className="text-xs uppercase tracking-widest font-semibold text-[var(--text-tertiary)]">Design Focus</p>
           <p className="text-base font-semibold text-[var(--primary)]">{story.designFocus}</p>
         </div>
       </div>
@@ -533,7 +533,7 @@ function SlideWorkflow({ story }: SlideProps) {
     <div className="h-full flex flex-col px-10 md:px-14 lg:px-20 py-10 gap-6">
       <div className="flex flex-col gap-3">
         <SectionLabel number="05" text="Current Workflow" color="amber" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">How it worked before</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">How it worked before</h2>
         <p className="text-base text-[var(--text-secondary)] max-w-2xl">{story.beforeWorkflow.desc}</p>
       </div>
       <div className="flex-1 flex flex-col md:flex-row gap-3 items-stretch overflow-hidden pb-2">
@@ -542,17 +542,17 @@ function SlideWorkflow({ story }: SlideProps) {
             {/* Card */}
             <div key={`card-${idx}`} className="flex-1 min-w-[180px] flex flex-col gap-3 bg-[var(--surface-elevated)] border border-[var(--border-secondary)] rounded-2xl p-5 shadow-xs">
               <div className="flex items-center justify-between gap-2">
-                <span className={cn('text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full', tcls(step.type))}>{step.type}</span>
+                <span className={cn('text-[9px] font-mono font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full', tcls(step.type))}>{step.type}</span>
                 <span className="text-[9px] font-mono text-[var(--text-tertiary)]">0{idx + 1}</span>
               </div>
               <div>
-                <h5 className="text-sm font-bold text-[var(--text-primary)]">{step.label}</h5>
+                <h5 className="text-sm font-semibold text-[var(--text-primary)]">{step.label}</h5>
                 <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed">{step.desc}</p>
               </div>
               {step.legacyFriction && (
                 <div className="mt-auto pt-3 border-t border-red-100 bg-red-50/60 -mx-5 -mb-5 px-4 py-3 rounded-b-2xl">
-                  <span className="text-[8px] font-bold uppercase tracking-wider text-red-500 block mb-0.5">Friction</span>
-                  <p className="text-[10px] text-red-700 leading-relaxed">{step.legacyFriction}</p>
+                  <span className="text-[8px] font-semibold uppercase tracking-wider text-red-500 block mb-0.5">Friction</span>
+                  <p className="text-xs text-red-700 leading-relaxed">{step.legacyFriction}</p>
                 </div>
               )}
             </div>
@@ -578,22 +578,22 @@ function SlideUserFlow({ story }: SlideProps) {
     <div className="h-full flex flex-col px-10 md:px-14 lg:px-20 py-10 gap-6">
       <div className="flex flex-col gap-3">
         <SectionLabel number="06" text="User Flow" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">The redesigned experience</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">The redesigned experience</h2>
         <p className="text-sm text-[var(--text-secondary)] max-w-2xl">{story.afterWorkflow.desc}</p>
       </div>
       <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-0 items-stretch overflow-hidden pb-2">
         {story.userFlowSteps.map((step, idx) => (
           <div key={idx} className="flex md:flex-col items-stretch gap-0 flex-1 min-w-[180px]">
             <div className="flex-1 flex flex-col gap-3 p-5 bg-[var(--surface-elevated)] border border-[var(--border-secondary)] md:rounded-none first:rounded-t-2xl last:rounded-b-2xl md:first:rounded-l-2xl md:last:rounded-r-2xl shadow-xs">
-              <span className={cn('text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full w-fit', tcls(step.type))}>{step.type}</span>
+              <span className={cn('text-[9px] font-mono font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full w-fit', tcls(step.type))}>{step.type}</span>
               <div>
-                <h5 className="text-sm font-bold text-[var(--text-primary)]">{step.label}</h5>
+                <h5 className="text-sm font-semibold text-[var(--text-primary)]">{step.label}</h5>
                 <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{step.desc}</p>
               </div>
               {step.redesignedEase && (
                 <div className="mt-auto pt-3 border-t border-emerald-100 bg-emerald-50/60 -mx-5 -mb-5 px-4 py-3 rounded-b-2xl">
-                  <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-600 block mb-0.5">Improvement</span>
-                  <p className="text-[10px] text-emerald-800 leading-relaxed">{step.redesignedEase}</p>
+                  <span className="text-[8px] font-semibold uppercase tracking-wider text-emerald-600 block mb-0.5">Improvement</span>
+                  <p className="text-xs text-emerald-800 leading-relaxed">{step.redesignedEase}</p>
                 </div>
               )}
             </div>
@@ -620,7 +620,7 @@ function SlideExploration({ project, mockups }: SlideProps) {
     <div className="h-full flex flex-col px-10 md:px-14 lg:px-20 py-10 gap-6">
       <div className="flex flex-col gap-3">
         <SectionLabel number="07" text="Design Exploration" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">How we arrived at the solution</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">How we arrived at the solution</h2>
       </div>
       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-5">
         {explorations.map((exp, i) => (
@@ -628,12 +628,12 @@ function SlideExploration({ project, mockups }: SlideProps) {
             <div className="relative flex-1 min-h-[120px] rounded-2xl overflow-hidden border border-[var(--border-secondary)] bg-[var(--surface-secondary)]">
               <Image src={exp.image} alt={exp.label} fill className={cn('object-cover', exp.className)} sizes="33vw" />
               <div className="absolute top-3 left-3">
-                <span className={cn('text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full', i === 2 ? 'bg-[var(--primary)] text-white' : 'bg-white/80 text-[var(--text-secondary)]')}>{exp.label}</span>
+                <span className={cn('text-[9px] font-mono font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full', i === 2 ? 'bg-[var(--primary)] text-white' : 'bg-white/80 text-[var(--text-secondary)]')}>{exp.label}</span>
               </div>
             </div>
             <div className="flex flex-col gap-1.5">
-              <p className="text-xs font-bold text-[var(--text-primary)]">{exp.subtitle}</p>
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-[var(--text-tertiary)]">{exp.note}</p>
+              <p className="text-xs font-semibold text-[var(--text-primary)]">{exp.subtitle}</p>
+              <p className="text-xs uppercase tracking-wider font-semibold text-[var(--text-tertiary)]">{exp.note}</p>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{exp.desc}</p>
             </div>
           </div>
@@ -665,7 +665,7 @@ function SlideSolution({ project, story, mockups }: SlideProps) {
           ))}
         </div>
         <div className="pt-4 border-t border-[var(--border-secondary)]">
-          <p className="text-[9px] uppercase tracking-widest font-bold text-[var(--text-tertiary)] mb-2">Redesigned Approach</p>
+          <p className="text-[9px] uppercase tracking-widest font-semibold text-[var(--text-tertiary)] mb-2">Redesigned Approach</p>
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{story.afterWorkflow.desc}</p>
         </div>
       </div>
@@ -687,14 +687,14 @@ function SlideFeatureDeepDive({ project, story, mockups, featureIndex }: SlidePr
         <div className="flex flex-col gap-5">
           <SectionLabel number={slideNum} text="Feature Deep Dive" />
           <div className="flex items-baseline gap-3">
-            <span className="text-4xl font-bold font-mono text-[var(--primary)]/20">{String(featureIndex + 1).padStart(2, '0')}</span>
-            <h2 className="text-2xl md:text-3xl font-bold font-heading text-[var(--text-primary)] leading-tight">{feature.featureName}</h2>
+            <span className="text-4xl font-semibold font-mono text-[var(--primary)]/20">{String(featureIndex + 1).padStart(2, '0')}</span>
+            <h2 className="text-2xl md:text-3xl font-semibold font-heading text-[var(--text-primary)] leading-tight">{feature.featureName}</h2>
           </div>
         </div>
         <div className="flex flex-col gap-4">
           {[{ label: 'Problem', text: feature.problem, color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-100' }, { label: 'Design Decision', text: feature.designResponse, color: 'text-[var(--primary)]', bg: 'bg-[var(--primary-subtle)]', border: 'border-[var(--primary)]/10' }, { label: 'Rationale', text: feature.whyMade, color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-100' }, { label: 'Outcome', text: feature.finalOutcome, color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-100' }].map((item, i) => (
             <div key={i} className={cn('p-4 rounded-xl border', item.bg, item.border)}>
-              <p className={cn('text-[9px] uppercase tracking-widest font-bold mb-1.5', item.color)}>{item.label}</p>
+              <p className={cn('text-[9px] uppercase tracking-widest font-semibold mb-1.5', item.color)}>{item.label}</p>
               <p className="text-sm text-[var(--text-primary)] leading-relaxed">{item.text}</p>
             </div>
           ))}
@@ -716,25 +716,25 @@ function SlideAnnotatedScreens({ project, story, mockups }: SlideProps) {
         <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[var(--border-secondary)] shadow-lg">
           <Image src={mockups.annotatedScreen01} alt={`${project.title} — annotated screen`} fill className="object-cover" sizes="65vw" />
           {story.annotatedAreas.map((ann) => (
-            <button key={ann.id} type="button" onClick={() => setSelectedId(ann.id)} className={cn('absolute w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono shadow-lg transition-all -translate-x-1/2 -translate-y-1/2 border-2', selectedId === ann.id ? 'bg-[var(--primary)] text-white border-white scale-110 ring-4 ring-[var(--primary)]/30' : 'bg-white text-[var(--text-primary)] border-[var(--border-secondary)] hover:scale-105 hover:border-[var(--primary)]')} style={{ top: ann.top, left: ann.left }}>{ann.id}</button>
+            <button key={ann.id} type="button" onClick={() => setSelectedId(ann.id)} className={cn('absolute w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold font-mono shadow-lg transition-all -translate-x-1/2 -translate-y-1/2 border-2', selectedId === ann.id ? 'bg-[var(--primary)] text-white border-white scale-110 ring-4 ring-[var(--primary)]/30' : 'bg-white text-[var(--text-primary)] border-[var(--border-secondary)] hover:scale-105 hover:border-[var(--primary)]')} style={{ top: ann.top, left: ann.left }}>{ann.id}</button>
           ))}
         </div>
       </div>
       <div className="w-full md:w-[300px] lg:w-[340px] flex flex-col justify-between px-6 py-8 border-t md:border-t-0 md:border-l border-[var(--border-primary)] bg-[var(--surface-elevated)]">
         <div className="flex flex-col gap-2 mb-4">
           <SectionLabel number="11" text="Annotated Screens" />
-          <h3 className="text-xl font-bold font-heading text-[var(--text-primary)]">UI Annotation</h3>
+          <h3 className="text-xl font-semibold font-heading text-[var(--text-primary)]">UI Annotation</h3>
           <p className="text-xs text-[var(--text-secondary)]">Click a hotspot to view details</p>
         </div>
         {active && (
           <div className="flex-1 flex flex-col gap-5 overflow-hidden">
             <div className="flex items-center gap-2.5 pb-3 border-b border-[var(--border-primary)]">
-              <span className="w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center">{active.id}</span>
-              <span className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">Annotation {active.id}</span>
+              <span className="w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-semibold flex items-center justify-center">{active.id}</span>
+              <span className="text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider">Annotation {active.id}</span>
             </div>
             {[{ label: 'Problem', text: active.problem, color: 'text-red-600' }, { label: 'Design Response', text: active.designResponse, color: 'text-[var(--primary)]' }, { label: 'Decision', text: active.decision, color: 'text-amber-600' }, { label: 'Benefit', text: active.benefit, color: 'text-emerald-600' }].map((item, i) => (
               <div key={i} className="flex flex-col gap-1">
-                <span className={cn('text-[8px] font-mono font-bold uppercase tracking-widest', item.color)}>{item.label}</span>
+                <span className={cn('text-[8px] font-mono font-semibold uppercase tracking-widest', item.color)}>{item.label}</span>
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{item.text}</p>
               </div>
             ))}
@@ -742,7 +742,7 @@ function SlideAnnotatedScreens({ project, story, mockups }: SlideProps) {
         )}
         <div className="flex gap-2 mt-4 flex-wrap">
           {story.annotatedAreas.map((ann) => (
-            <button key={ann.id} type="button" onClick={() => setSelectedId(ann.id)} className={cn('w-8 h-8 rounded-lg text-xs font-bold font-mono transition-all', selectedId === ann.id ? 'bg-[var(--primary)] text-white' : 'bg-[var(--surface)] border border-[var(--border-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]')}>{ann.id}</button>
+            <button key={ann.id} type="button" onClick={() => setSelectedId(ann.id)} className={cn('w-8 h-8 rounded-lg text-xs font-semibold font-mono transition-all', selectedId === ann.id ? 'bg-[var(--primary)] text-white' : 'bg-[var(--surface)] border border-[var(--border-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]')}>{ann.id}</button>
           ))}
         </div>
       </div>
@@ -755,26 +755,26 @@ function SlideBeforeAfter({ project, story, mockups }: SlideProps) {
     <div className="h-full flex flex-col px-10 md:px-14 lg:px-20 py-10 gap-6">
       <div className="flex flex-col gap-3">
         <SectionLabel number="12" text="Before & After" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">The transformation</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">The transformation</h2>
       </div>
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-3 min-h-0">
-          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500" /><span className="text-xs font-bold uppercase tracking-widest text-red-600">Before</span></div>
+          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500" /><span className="text-xs font-semibold uppercase tracking-widest text-red-600">Before</span></div>
           <div className="flex-1 relative rounded-2xl overflow-hidden border-2 border-red-200 bg-[var(--surface-secondary)]">
             <Image src={mockups.beforeImage} alt="Before redesign" fill className="object-cover grayscale opacity-80" sizes="50vw" />
             <div className="absolute inset-0 bg-red-900/10 mix-blend-multiply pointer-events-none" />
             {story.painPoints.slice(0, 2).map((pp, i) => (
-              <div key={i} className="absolute bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg" style={{ top: `${25 + i * 35}%`, left: '10%' }}>&times; {pp.frustration.slice(0, 30)}&hellip;</div>
+              <div key={i} className="absolute bg-red-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg" style={{ top: `${25 + i * 35}%`, left: '10%' }}>&times; {pp.frustration.slice(0, 30)}&hellip;</div>
             ))}
           </div>
           <p className="text-sm text-[var(--text-secondary)] font-medium">{story.beforeWorkflow.desc.slice(0, 100)}&hellip;</p>
         </div>
         <div className="flex flex-col gap-3 min-h-0">
-          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500" /><span className="text-xs font-bold uppercase tracking-widest text-emerald-600">After</span></div>
+          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500" /><span className="text-xs font-semibold uppercase tracking-widest text-emerald-600">After</span></div>
           <div className="flex-1 relative rounded-2xl overflow-hidden border-2 border-emerald-300 bg-[var(--surface-secondary)] shadow-md">
             <Image src={mockups.afterImage} alt="After redesign" fill className="object-cover" sizes="50vw" />
             {story.outcomeMetrics.slice(0, 2).map((kpi, i) => (
-              <div key={i} className="absolute bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg" style={{ top: `${25 + i * 35}%`, right: '10%' }}>&checkmark; {kpi.title}: {kpi.value}</div>
+              <div key={i} className="absolute bg-emerald-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg" style={{ top: `${25 + i * 35}%`, right: '10%' }}>&checkmark; {kpi.title}: {kpi.value}</div>
             ))}
           </div>
           <p className="text-sm text-[var(--text-secondary)] font-medium">{story.afterWorkflow.desc.slice(0, 100)}&hellip;</p>
@@ -791,7 +791,7 @@ function SlideSystemThinking({ project, mockups }: SlideProps) {
       <div className="w-full md:w-[42%] flex flex-col justify-center px-10 md:px-14 lg:px-16 py-10 gap-6">
         <div className="flex flex-col gap-4">
           <SectionLabel number="12" text="System Thinking" color="purple" />
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">{cs.designSystem.heading}</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">{cs.designSystem.heading}</h2>
           <p className="text-base text-[var(--text-secondary)] leading-relaxed">{cs.designSystem.body}</p>
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -818,7 +818,7 @@ function SlideImpact({ project, story, mockups }: SlideProps) {
     <div className="h-full flex flex-col px-10 md:px-14 lg:px-20 py-10 gap-6">
       <div className="flex flex-col gap-3">
         <SectionLabel number="13" text="Impact" color="green" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">{cs.outcome.heading}</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">{cs.outcome.heading}</h2>
         <p className="text-base text-[var(--text-secondary)] max-w-2xl">{cs.outcome.body}</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -840,7 +840,7 @@ function SlideImpact({ project, story, mockups }: SlideProps) {
             {cs.outcome.bullets.map((bullet, i) => (
               <div key={i} className="flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-emerald-100">
                 <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
-                <span className="text-[10px] font-semibold text-[var(--text-primary)]">{bullet}</span>
+                <span className="text-xs font-semibold text-[var(--text-primary)]">{bullet}</span>
               </div>
             ))}
           </div>
@@ -855,12 +855,12 @@ function SlideLearnings({ project, story, onClose }: SlideProps & { onClose: () 
     <div className="h-full flex flex-col items-center justify-center px-10 md:px-14 lg:px-20 py-10 gap-5">
       <div className="flex flex-col items-center gap-4 text-center">
         <SectionLabel number="14" text="Key Learnings" color="purple" />
-        <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">What this project taught me</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold font-heading text-[var(--text-primary)] leading-tight">What this project taught me</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl">
         {story.takeaways.map((takeaway, i) => (
           <div key={i} className="flex flex-col gap-4 p-6 rounded-2xl bg-[var(--surface-elevated)] border border-[var(--border-primary)] shadow-xs">
-            <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 font-bold text-lg flex items-center justify-center font-mono">{String(i + 1).padStart(2, '0')}</div>
+            <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 font-semibold text-lg flex items-center justify-center font-mono">{String(i + 1).padStart(2, '0')}</div>
             <div className="flex flex-col gap-2">
               <h4 className="text-base font-semibold text-[var(--text-primary)] font-heading">{takeaway.title}</h4>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{takeaway.desc}</p>
@@ -916,7 +916,7 @@ function SlideObsCover({ project }: any) {
             {data.subtitle}
           </p>
           {data.metadata && (
-            <p className="text-xs font-bold text-[var(--text-tertiary)] tracking-widest uppercase">
+            <p className="text-xs font-semibold text-[var(--text-tertiary)] tracking-widest uppercase">
               {data.metadata}
             </p>
           )}
@@ -941,7 +941,7 @@ function SlideObsContext({ project }: any) {
       <div className="w-full lg:w-[45%] flex flex-col justify-center p-8 md:p-12 lg:p-16 min-h-0 gap-6 lg:gap-8 overflow-hidden">
         {/* Header */}
         <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[var(--text-primary)] font-heading">
             {data.title}
           </h2>
         </div>
@@ -957,11 +957,11 @@ function SlideObsContext({ project }: any) {
               key={i} 
               className="relative flex flex-col sm:flex-row gap-4 items-start p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-blue-500/30 hover:shadow-sm transition-all duration-300"
             >
-              <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-sm font-bold font-heading shadow-sm group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors duration-300 shrink-0">
+              <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-sm font-semibold font-heading shadow-sm group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors duration-300 shrink-0">
                 {i + 1}
               </div>
               <div className="flex flex-col gap-1.5 mt-1">
-                <h3 className="text-base font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-base font-semibold text-[var(--text-primary)] font-heading leading-snug group-hover:text-blue-600 transition-colors duration-300">
                   {pt.label}
                 </h3>
                 <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
@@ -1001,7 +1001,7 @@ function SlideObsChallenge({ project }: any) {
         <div className="flex flex-col gap-3 overflow-hidden pr-2">
           {data.problems.map((prob: string, i: number) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-red-500/10 text-red-500 text-[10px] font-bold shrink-0 mt-0.5">{i+1}</span>
+              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-red-500/10 text-red-500 text-xs font-semibold shrink-0 mt-0.5">{i+1}</span>
               <span className="text-sm text-[var(--text-primary)]">{prob}</span>
             </div>
           ))}
@@ -1030,10 +1030,10 @@ function SlideObsPainPoints({ project }: any) {
         
         {/* Header */}
         <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
-          <span className="text-xs font-bold tracking-widest text-red-500 uppercase flex items-center gap-2">
+          <span className="text-xs font-semibold tracking-widest text-red-500 uppercase flex items-center gap-2">
             Pain Points
           </span>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading max-w-2xl">
+          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-[var(--text-primary)] font-heading max-w-2xl">
             {data.title}
           </h2>
         </div>
@@ -1057,10 +1057,10 @@ function SlideObsPainPoints({ project }: any) {
                 className="relative flex flex-col justify-center p-5 lg:p-6 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-red-500/30 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300"
               >
                 <div className="relative z-10 flex flex-col gap-3">
-                  <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 border border-red-100 flex items-center justify-center font-bold shadow-sm group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-colors duration-300 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 border border-red-100 flex items-center justify-center font-semibold shadow-sm group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-colors duration-300 shrink-0">
                     {renderIcon()}
                   </div>
-                  <h3 className="text-base lg:text-lg font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-red-500 transition-colors duration-300">
+                  <h3 className="text-base lg:text-lg font-semibold text-[var(--text-primary)] font-heading leading-snug group-hover:text-red-500 transition-colors duration-300">
                     {pt.question}
                   </h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
@@ -1104,7 +1104,7 @@ function SlideObsOpportunity({ project }: any) {
         <div className="w-full max-w-5xl flex flex-col md:flex-row justify-center items-stretch min-h-0 gap-3 md:gap-4 mt-4 lg:mt-8 shrink-0">
           
           <div className="flex-1 w-full md:w-auto bg-blue-500/5 hover:bg-blue-500/10 transition-colors border border-blue-500/20 p-6 lg:p-8 rounded-2xl flex flex-col items-center justify-center text-center h-full min-h-[140px] shadow-sm">
-            <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-blue-600 mb-3 block">Project Overview</span>
+            <span className="text-xs md:text-xs font-semibold tracking-widest uppercase text-blue-600 mb-3 block">Project Overview</span>
             <span className="text-base md:text-lg text-[var(--text-primary)] font-medium leading-snug">What needs my attention?</span>
           </div>
           
@@ -1119,7 +1119,7 @@ function SlideObsOpportunity({ project }: any) {
           </div>
 
           <div className="flex-1 w-full md:w-auto bg-blue-500/5 hover:bg-blue-500/10 transition-colors border border-blue-500/20 p-6 lg:p-8 rounded-2xl flex flex-col items-center justify-center text-center h-full min-h-[140px] shadow-sm">
-            <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-blue-600 mb-3 block">Project Dashboard</span>
+            <span className="text-xs md:text-xs font-semibold tracking-widest uppercase text-blue-600 mb-3 block">Project Dashboard</span>
             <span className="text-base md:text-lg text-[var(--text-primary)] font-medium leading-snug">How is the project performing?</span>
           </div>
 
@@ -1134,7 +1134,7 @@ function SlideObsOpportunity({ project }: any) {
           </div>
 
           <div className="flex-1 w-full md:w-auto bg-blue-500/5 hover:bg-blue-500/10 transition-colors border border-blue-500/20 p-6 lg:p-8 rounded-2xl flex flex-col items-center justify-center text-center h-full min-h-[140px] shadow-sm">
-            <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-blue-600 mb-3 block">3D Viewer</span>
+            <span className="text-xs md:text-xs font-semibold tracking-widest uppercase text-blue-600 mb-3 block">3D Viewer</span>
             <span className="text-base md:text-lg text-[var(--text-primary)] font-medium leading-snug">Where exactly is it happening?</span>
           </div>
           
@@ -1152,10 +1152,10 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
           {/* Header */}
           <div className="flex flex-col gap-3 shrink-0 border-b border-[var(--border-secondary)] pb-4 mb-4">
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading leading-tight whitespace-nowrap">
+              <h2 className="text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-[var(--text-primary)] font-heading leading-tight whitespace-nowrap">
                 {data.title}
               </h2>
-              <span className={`shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border ${type === 'before' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 'bg-green-500/10 text-green-600 border-green-500/20'}`}>
+              <span className={`shrink-0 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider rounded-full border ${type === 'before' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 'bg-green-500/10 text-green-600 border-green-500/20'}`}>
                 {type === 'before' ? 'Existing' : 'Redesigned'}
               </span>
             </div>
@@ -1164,7 +1164,7 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
           <div className="shrink-0 mt-4">
             {type === 'before' && data.userPain && (
               <div className="p-4 bg-red-500/5 rounded-lg border border-red-500/10 mb-6">
-                <span className="text-[10px] font-bold text-red-500 tracking-widest uppercase mb-1.5 block">User Pain</span>
+                <span className="text-xs font-semibold text-red-500 tracking-widest uppercase mb-1.5 block">User Pain</span>
                 <p className="text-sm font-medium text-[var(--text-primary)]">{data.userPain}</p>
               </div>
             )}
@@ -1172,7 +1172,7 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
             {type === 'after' && data.beforeCallout && data.afterCallout && (
               <div className="flex flex-col gap-3 mb-6">
                 <div className="p-4 bg-green-500/5 rounded-lg border border-green-500/20 shadow-sm">
-                  <span className="text-[10px] font-bold text-green-600 tracking-widest uppercase mb-1 block">Improvement</span>
+                  <span className="text-xs font-semibold text-green-600 tracking-widest uppercase mb-1 block">Improvement</span>
                   <p className="text-sm font-medium text-[var(--text-primary)]">{data.afterCallout}</p>
                 </div>
               </div>
@@ -1181,10 +1181,10 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
             {/* Annotations List */}
             {data.annotations && data.annotations.length > 0 && (
               <div className="flex flex-col gap-3 mt-6">
-                <div className="text-[10px] font-bold text-[var(--text-tertiary)] tracking-widest uppercase border-b border-[var(--border-secondary)] pb-2 mb-1">Key Observations</div>
+                <div className="text-xs font-semibold text-[var(--text-tertiary)] tracking-widest uppercase border-b border-[var(--border-secondary)] pb-2 mb-1">Key Observations</div>
                 {data.annotations.map((ann: any, i: number) => (
                   <div key={i} className="flex gap-3 items-center group cursor-default">
-                    <span className={`shrink-0 flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-colors ${type === 'before' ? 'bg-red-500/10 text-red-500 border border-red-500/20 group-hover:bg-red-500 group-hover:text-white' : 'bg-green-500/10 text-green-600 border border-green-500/20 group-hover:bg-green-500 group-hover:text-white'}`}>
+                    <span className={`shrink-0 flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold transition-colors ${type === 'before' ? 'bg-red-500/10 text-red-500 border border-red-500/20 group-hover:bg-red-500 group-hover:text-white' : 'bg-green-500/10 text-green-600 border border-green-500/20 group-hover:bg-green-500 group-hover:text-white'}`}>
                       {ann.num}
                     </span>
                     <div className="flex-1 min-w-0 flex items-center">
@@ -1214,7 +1214,7 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
               style={{ left: `${ann.x}%`, top: `${ann.y}%`, transform: 'translate(-50%, -50%)' }}
             >
               {/* Dot */}
-              <div className={`relative flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full shadow-lg text-[10px] md:text-xs font-bold ring-4 transition-transform group-hover:scale-110 ${type === 'before' ? 'bg-red-500 text-white ring-red-500/30' : 'bg-green-500 text-white ring-green-500/30'}`}>
+              <div className={`relative flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full shadow-lg text-xs md:text-xs font-semibold ring-4 transition-transform group-hover:scale-110 ${type === 'before' ? 'bg-red-500 text-white ring-red-500/30' : 'bg-green-500 text-white ring-green-500/30'}`}>
                 {ann.num}
                 <span className="absolute inset-0 rounded-full animate-ping opacity-20 bg-current"></span>
               </div>
@@ -1228,7 +1228,7 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
                 }`}
               >
                 {ann.title && <span className="block text-xs md:text-sm font-semibold text-gray-900 mb-1">{ann.title}</span>}
-                <span className="block text-[10px] md:text-xs text-gray-600 font-medium leading-relaxed">{ann.desc}</span>
+                <span className="block text-xs md:text-xs text-gray-600 font-medium leading-relaxed">{ann.desc}</span>
               </div>
             </div>
           ))}
@@ -1261,14 +1261,14 @@ function SlideObsComparisonSingle({ project, index }: any) {
   return (
     <div className="w-full h-full flex flex-col p-6 lg:px-12 lg:py-8 bg-[var(--bg-secondary)] overflow-hidden">
       <div className="flex flex-col mb-6 shrink-0">
-        <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] font-heading">{pair.title}</h3>
+        <h3 className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)] font-heading">{pair.title}</h3>
       </div>
       
       <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 lg:gap-10 min-h-0">
          {/* Before */}
          <div className="flex-1 flex flex-col gap-3 min-h-0 min-w-0">
            <div className="flex items-center justify-between shrink-0 px-2">
-             <span className="text-xs font-bold text-[var(--text-tertiary)] uppercase tracking-wider">Before</span>
+             <span className="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Before</span>
              <span className="text-sm font-medium text-[var(--text-secondary)]">{pair.bLabel}</span>
            </div>
            <div className="flex-1 bg-[var(--bg-tertiary)] rounded-2xl border border-[var(--border-secondary)] overflow-hidden min-h-0 relative shadow-sm">
@@ -1278,8 +1278,8 @@ function SlideObsComparisonSingle({ project, index }: any) {
          {/* After */}
          <div className="flex-1 flex flex-col gap-3 min-h-0 min-w-0">
            <div className="flex items-center justify-between shrink-0 px-2">
-             <span className="text-xs font-bold text-blue-500 uppercase tracking-wider">After</span>
-             <span className="text-sm font-bold text-[var(--text-primary)]">{pair.aLabel}</span>
+             <span className="text-xs font-semibold text-blue-500 uppercase tracking-wider">After</span>
+             <span className="text-sm font-semibold text-[var(--text-primary)]">{pair.aLabel}</span>
            </div>
            <div className="flex-1 bg-[var(--bg-primary)] rounded-2xl border-2 border-blue-500/30 overflow-hidden shadow-2xl ring-4 ring-blue-500/10 min-h-0 relative">
              <img src={pair.after} alt="After" className="absolute inset-0 w-full h-full object-cover object-left-top" />
@@ -1298,7 +1298,7 @@ function SlideObsSystem({ project }: any) {
         
         {/* Header */}
         <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading max-w-4xl">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[var(--text-primary)] font-heading max-w-4xl">
             {data.title}
           </h2>
         </div>
@@ -1333,7 +1333,7 @@ function SlideObsFinalStory({ project }: any) {
             <img src={d.overviewAfter.image} alt="Overview" className="absolute inset-0 w-full h-full object-cover object-top" />
           </div>
           <div className="shrink-0">
-            <span className="block text-[10px] font-bold text-blue-500 tracking-widest uppercase mb-1">Project Overview</span>
+            <span className="block text-xs font-semibold text-blue-500 tracking-widest uppercase mb-1">Project Overview</span>
             <span className="block text-sm text-[var(--text-primary)] font-medium">“What needs my attention?”</span>
           </div>
         </div>
@@ -1348,7 +1348,7 @@ function SlideObsFinalStory({ project }: any) {
             <img src={d.dashboardAfter.image} alt="Dashboard" className="absolute inset-0 w-full h-full object-cover object-top" />
           </div>
           <div className="shrink-0">
-            <span className="block text-[10px] font-bold text-blue-500 tracking-widest uppercase mb-1">Project Dashboard</span>
+            <span className="block text-xs font-semibold text-blue-500 tracking-widest uppercase mb-1">Project Dashboard</span>
             <span className="block text-sm text-[var(--text-primary)] font-medium">“How is my project performing?”</span>
           </div>
         </div>
@@ -1363,13 +1363,13 @@ function SlideObsFinalStory({ project }: any) {
             <img src={d.viewerAfter.image} alt="Viewer" className="absolute inset-0 w-full h-full object-cover object-top" />
           </div>
           <div className="shrink-0">
-            <span className="block text-[10px] font-bold text-blue-500 tracking-widest uppercase mb-1">3D Viewer</span>
+            <span className="block text-xs font-semibold text-blue-500 tracking-widest uppercase mb-1">3D Viewer</span>
             <span className="block text-sm text-[var(--text-primary)] font-medium">“Where exactly is it happening?”</span>
           </div>
         </div>
       </div>
       
-      <div className="flex items-center gap-2 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-[var(--text-secondary)] shrink-0">
+      <div className="flex items-center gap-2 text-xs md:text-xs font-semibold tracking-[0.2em] uppercase text-[var(--text-secondary)] shrink-0">
         <span>Discover</span> <span className="text-blue-500">→</span> 
         <span>Understand</span> <span className="text-blue-500">→</span> 
         <span>Investigate</span> <span className="text-blue-500">→</span> 
@@ -1419,7 +1419,7 @@ function SlideObsLearnings({ project }: any) {
                   <X className="w-5 h-5" strokeWidth={2.5} />
                 </div>
                 <div className="flex flex-col gap-1.5 mt-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-red-500/80">Existing</span>
+                  <span className="text-xs font-semibold uppercase tracking-widest text-red-500/80">Existing</span>
                   <p className="text-sm md:text-base text-[var(--text-secondary)] font-medium leading-relaxed">
                     {item.before}
                   </p>
@@ -1437,8 +1437,8 @@ function SlideObsLearnings({ project }: any) {
                   <Check className="w-5 h-5" strokeWidth={3} />
                 </div>
                 <div className="flex flex-col gap-1.5 mt-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-green-600/80">Redesigned</span>
-                  <p className="text-base md:text-lg text-[var(--text-primary)] font-bold leading-relaxed">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-green-600/80">Redesigned</span>
+                  <p className="text-base md:text-lg text-[var(--text-primary)] font-semibold leading-relaxed">
                     {item.after}
                   </p>
                 </div>
@@ -1463,7 +1463,7 @@ function SlideThanks({ onClose }: { onClose?: () => void }) {
       <div className="absolute top-[20%] -right-[10%] w-[50%] h-[80%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="relative z-10 flex flex-col items-center justify-center gap-6 text-center max-w-xl">
-        <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-tertiary)] font-heading pb-2">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-tertiary)] font-heading pb-2">
           Thank You
         </h2>
         <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] font-medium leading-relaxed max-w-md mx-auto">
@@ -1640,7 +1640,7 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
           <button key={idx} type="button" onClick={() => goToSlide(idx)} title={s.label} aria-label={`Go to ${s.label}`} className={cn('rounded-full transition-all duration-200 cursor-pointer hover:opacity-100 shrink-0', idx === currentSlide ? 'w-5 h-2 bg-[var(--primary)] opacity-100' : idx < currentSlide ? 'w-2 h-2 bg-[var(--primary)] opacity-35 hover:opacity-60' : 'w-2 h-2 bg-[var(--text-tertiary)] opacity-25 hover:opacity-50')} />
         ))}
       </div>
-      <span className="text-[10px] font-mono font-medium text-[var(--text-tertiary)] bg-[var(--surface-primary)] px-2 py-0.5 rounded-full border border-[var(--border-primary)] shadow-sm shrink-0">
+      <span className="text-xs font-mono font-medium text-[var(--text-tertiary)] bg-[var(--surface-primary)] px-2 py-0.5 rounded-full border border-[var(--border-primary)] shadow-sm shrink-0">
         {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
       </span>
     </>
