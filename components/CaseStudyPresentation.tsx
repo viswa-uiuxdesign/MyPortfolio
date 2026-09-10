@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import {
   X, ChevronLeft, ChevronRight, ArrowRight, Maximize2, Minimize2,
-  AlertCircle, CheckCircle2, ArrowUpRight, Calendar, Users, Briefcase, Globe,
+  AlertCircle, CheckCircle2, Check, ArrowUpRight, Calendar, Users, Briefcase, Globe,
   HardHat, Camera, Cpu, LineChart, Lightbulb, Zap, Compass, Brain, Microscope
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -55,7 +55,7 @@ type SlideType =
   | 'obs-logo' | 'obs-cover' | 'obs-context' | 'obs-challenge' | 'obs-pain-points' | 'obs-opportunity'
   | 'obs-overview-before' | 'obs-overview-after' | 'obs-dashboard-before' | 'obs-dashboard-after'
   | 'obs-scan-before' | 'obs-scan-after'
-  | 'obs-viewer-before' | 'obs-viewer-after' | 'obs-comparison-overview' | 'obs-comparison-dashboard' | 'obs-comparison-viewer' | 'obs-system' | 'obs-final-story' | 'obs-learnings';
+  | 'obs-viewer-before' | 'obs-viewer-after' | 'obs-comparison-overview' | 'obs-comparison-dashboard' | 'obs-comparison-viewer' | 'obs-system' | 'obs-final-story' | 'obs-learnings' | 'thanks';
 
 interface Slide { type: SlideType; label: string; }
 interface SlideProps { project: Project; story: ProjectStory; mockups: ProjectMockups; }
@@ -76,6 +76,7 @@ function buildSlides(project: Project, story: ProjectStory): Slide[] {
       { type: 'obs-viewer-after', label: 'Viewer: After' },
       { type: 'obs-system', label: 'System' },
       { type: 'obs-learnings', label: 'Learnings' },
+      { type: 'thanks', label: 'Thank You' }
     ];
   }
 
@@ -97,6 +98,7 @@ function buildSlides(project: Project, story: ProjectStory): Slide[] {
   if (dsBody.length > 80) slides.push({ type: 'system-thinking', label: 'System Thinking' });
   slides.push({ type: 'impact', label: 'Impact' });
   slides.push({ type: 'learnings', label: 'Learnings' });
+  slides.push({ type: 'thanks', label: 'Thank You' });
   return slides;
 }
 
@@ -534,7 +536,7 @@ function SlideWorkflow({ story }: SlideProps) {
         <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">How it worked before</h2>
         <p className="text-base text-[var(--text-secondary)] max-w-2xl">{story.beforeWorkflow.desc}</p>
       </div>
-      <div className="flex-1 flex flex-col md:flex-row gap-3 items-stretch overflow-x-auto pb-2">
+      <div className="flex-1 flex flex-col md:flex-row gap-3 items-stretch overflow-hidden pb-2">
         {story.userFlowSteps.map((step, idx) => (
           <React.Fragment key={idx}>
             {/* Card */}
@@ -579,7 +581,7 @@ function SlideUserFlow({ story }: SlideProps) {
         <h2 className="text-3xl md:text-4xl font-bold font-heading text-[var(--text-primary)] leading-tight">The redesigned experience</h2>
         <p className="text-sm text-[var(--text-secondary)] max-w-2xl">{story.afterWorkflow.desc}</p>
       </div>
-      <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-0 items-stretch overflow-x-auto pb-2">
+      <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-0 items-stretch overflow-hidden pb-2">
         {story.userFlowSteps.map((step, idx) => (
           <div key={idx} className="flex md:flex-col items-stretch gap-0 flex-1 min-w-[180px]">
             <div className="flex-1 flex flex-col gap-3 p-5 bg-[var(--surface-elevated)] border border-[var(--border-secondary)] md:rounded-none first:rounded-t-2xl last:rounded-b-2xl md:first:rounded-l-2xl md:last:rounded-r-2xl shadow-xs">
@@ -725,7 +727,7 @@ function SlideAnnotatedScreens({ project, story, mockups }: SlideProps) {
           <p className="text-xs text-[var(--text-secondary)]">Click a hotspot to view details</p>
         </div>
         {active && (
-          <div className="flex-1 flex flex-col gap-5 overflow-y-auto">
+          <div className="flex-1 flex flex-col gap-5 overflow-hidden">
             <div className="flex items-center gap-2.5 pb-3 border-b border-[var(--border-primary)]">
               <span className="w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center">{active.id}</span>
               <span className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">Annotation {active.id}</span>
@@ -934,42 +936,52 @@ function SlideObsCover({ project }: any) {
 function SlideObsContext({ project }: any) {
   const data = project.customObservanceStory.productContext;
   return (
-    <div className="w-full h-full flex flex-col p-6 lg:px-12 lg:py-10 bg-[var(--bg-secondary)] overflow-hidden">
-      <div className="max-w-6xl mx-auto w-full h-full flex flex-col justify-center min-h-0 gap-6 lg:gap-10">
-        
+    <div className="w-full h-full flex flex-col lg:flex-row bg-[var(--bg-secondary)] overflow-hidden">
+      {/* Left Content Panel */}
+      <div className="w-full lg:w-[45%] flex flex-col justify-center p-8 md:p-12 lg:p-16 min-h-0 gap-6 lg:gap-8 overflow-hidden">
         {/* Header */}
-        <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-6">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
+        <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
             {data.title}
           </h2>
         </div>
         
-        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed shrink-0 max-w-5xl">
+        <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed shrink-0">
           {data.body}
         </p>
 
         {/* Content Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 shrink-0 pb-4 mt-2">
+        <div className="flex flex-col gap-4 shrink-0 pb-4">
           {data.points.map((pt: any, i: number) => (
             <div 
               key={i} 
-              className="relative flex flex-col justify-center p-8 lg:p-10 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-blue-500/30 hover:shadow-lg transition-all duration-300"
+              className="relative flex flex-col sm:flex-row gap-4 items-start p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-blue-500/30 hover:shadow-sm transition-all duration-300"
             >
-              <div className="relative z-10 flex flex-col gap-5">
-                <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-lg font-bold font-heading shadow-sm group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors duration-300 shrink-0">
-                  {i + 1}
-                </div>
-                <h3 className="text-xl lg:text-2xl font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-blue-600 transition-colors duration-300">
+              <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-sm font-bold font-heading shadow-sm group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors duration-300 shrink-0">
+                {i + 1}
+              </div>
+              <div className="flex flex-col gap-1.5 mt-1">
+                <h3 className="text-base font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-blue-600 transition-colors duration-300">
                   {pt.label}
                 </h3>
-                <p className="text-base text-[var(--text-secondary)] leading-relaxed font-medium">
+                <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
                   {pt.desc}
                 </p>
               </div>
             </div>
           ))}
         </div>
-        
+      </div>
+      
+      {/* Right Image Panel */}
+      <div className="w-full lg:w-[55%] h-64 lg:h-full relative border-t lg:border-t-0 lg:border-l border-[var(--border-secondary)] shrink-0 lg:shrink">
+        <img 
+          src="/images/projects/inkers-construction-site.jpg" 
+          alt="Inkers Construction Site Context" 
+          className="absolute inset-0 w-full h-full object-cover" 
+        />
+        {/* Subtle overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
       </div>
     </div>
   );
@@ -986,7 +998,7 @@ function SlideObsChallenge({ project }: any) {
         <p className="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed shrink-0">
           {data.body}
         </p>
-        <div className="flex flex-col gap-3 overflow-y-auto pr-2">
+        <div className="flex flex-col gap-3 overflow-hidden pr-2">
           {data.problems.map((prob: string, i: number) => (
             <div key={i} className="flex items-start gap-3">
               <span className="flex items-center justify-center w-5 h-5 rounded-full bg-red-500/10 text-red-500 text-[10px] font-bold shrink-0 mt-0.5">{i+1}</span>
@@ -1019,7 +1031,6 @@ function SlideObsPainPoints({ project }: any) {
         {/* Header */}
         <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
           <span className="text-xs font-bold tracking-widest text-red-500 uppercase flex items-center gap-2">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-white text-[10px]">!</span>
             Pain Points
           </span>
           <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading max-w-2xl">
@@ -1028,25 +1039,37 @@ function SlideObsPainPoints({ project }: any) {
         </div>
         
         {/* Content Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-5 min-h-0 overflow-y-auto pb-2 shrink-0">
-          {data.points.map((pt: any) => (
-            <div 
-              key={pt.num} 
-              className="relative flex flex-col justify-center p-5 lg:p-6 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-red-500/30 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300"
-            >
-              <div className="relative z-10 flex flex-col gap-3">
-                <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 border border-red-100 flex items-center justify-center text-xs font-bold font-heading shadow-sm group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-colors duration-300 shrink-0">
-                  {pt.num}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-5 min-h-0 overflow-hidden pb-2 shrink-0">
+          {data.points.map((pt: any) => {
+            const renderIcon = () => {
+              switch (pt.num) {
+                case '01': return <AlertCircle size={16} />;
+                case '02': return <LineChart size={16} />;
+                case '03': return <Camera size={16} />;
+                case '04': return <Microscope size={16} />;
+                default: return <AlertCircle size={16} />;
+              }
+            };
+            
+            return (
+              <div 
+                key={pt.num} 
+                className="relative flex flex-col justify-center p-5 lg:p-6 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-red-500/30 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300"
+              >
+                <div className="relative z-10 flex flex-col gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 border border-red-100 flex items-center justify-center font-bold shadow-sm group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-colors duration-300 shrink-0">
+                    {renderIcon()}
+                  </div>
+                  <h3 className="text-base lg:text-lg font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-red-500 transition-colors duration-300">
+                    {pt.question}
+                  </h3>
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
+                    {pt.answer}
+                  </p>
                 </div>
-                <h3 className="text-base lg:text-lg font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-red-500 transition-colors duration-300">
-                  {pt.question}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
-                  {pt.answer}
-                </p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
       </div>
@@ -1124,15 +1147,15 @@ function SlideObsOpportunity({ project }: any) {
 function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | 'after' }) {
   return (
     <div className="w-full h-full flex flex-col lg:flex-row bg-[var(--bg-primary)] overflow-hidden">
-      <div className="w-full lg:w-[35%] p-6 lg:px-8 lg:py-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[var(--border-secondary)] bg-[var(--bg-secondary)] min-h-0">
-        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto pr-2">
+      <div className="w-full lg:w-[35%] p-8 md:p-10 lg:px-10 lg:py-16 flex flex-col justify-start border-b lg:border-b-0 lg:border-r border-[var(--border-secondary)] bg-[var(--bg-secondary)] min-h-0">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-hidden overflow-x-hidden pr-2">
           {/* Header */}
           <div className="flex flex-col gap-3 shrink-0 border-b border-[var(--border-secondary)] pb-4 mb-4">
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading leading-tight shrink-0">
+              <h2 className="text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading leading-tight whitespace-nowrap">
                 {data.title}
               </h2>
-              <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border ${type === 'before' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 'bg-green-500/10 text-green-600 border-green-500/20'}`}>
+              <span className={`shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border ${type === 'before' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 'bg-green-500/10 text-green-600 border-green-500/20'}`}>
                 {type === 'before' ? 'Existing' : 'Redesigned'}
               </span>
             </div>
@@ -1140,21 +1163,17 @@ function SlideObsBeforeAfterView({ data, type }: { data: any, type: 'before' | '
           
           <div className="shrink-0 mt-4">
             {type === 'before' && data.userPain && (
-              <div className="p-4 bg-red-500/5 rounded-xl border border-red-500/10">
+              <div className="p-4 bg-red-500/5 rounded-lg border border-red-500/10 mb-6">
                 <span className="text-[10px] font-bold text-red-500 tracking-widest uppercase mb-1.5 block">User Pain</span>
                 <p className="text-sm font-medium text-[var(--text-primary)]">{data.userPain}</p>
               </div>
             )}
             
             {type === 'after' && data.beforeCallout && data.afterCallout && (
-              <div className="flex flex-col gap-2">
-                <div className="p-3 bg-[var(--bg-primary)] rounded-lg border border-[var(--border-secondary)] opacity-60">
-                  <span className="text-[10px] font-bold text-[var(--text-tertiary)] tracking-widest uppercase mb-1 block">Before</span>
-                  <p className="text-xs text-[var(--text-secondary)]">{data.beforeCallout}</p>
-                </div>
-                <div className="p-3 bg-green-500/5 rounded-lg border border-green-500/10">
-                  <span className="text-[10px] font-bold text-green-600 tracking-widest uppercase mb-1 block">After</span>
-                  <p className="text-xs font-medium text-[var(--text-primary)]">{data.afterCallout}</p>
+              <div className="flex flex-col gap-3 mb-6">
+                <div className="p-4 bg-green-500/5 rounded-lg border border-green-500/20 shadow-sm">
+                  <span className="text-[10px] font-bold text-green-600 tracking-widest uppercase mb-1 block">Improvement</span>
+                  <p className="text-sm font-medium text-[var(--text-primary)]">{data.afterCallout}</p>
                 </div>
               </div>
             )}
@@ -1274,24 +1293,23 @@ function SlideObsComparisonSingle({ project, index }: any) {
 function SlideObsSystem({ project }: any) {
   const data = project.customObservanceStory.system;
   return (
-    <div className="w-full h-full flex flex-col p-6 lg:px-12 lg:py-10 bg-[var(--bg-primary)] relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid-[var(--border-secondary)] bg-[size:64px_64px] opacity-10 pointer-events-none" />
-      <div className="max-w-6xl mx-auto w-full relative z-10 flex flex-col justify-center h-full min-h-0 gap-6 lg:gap-10">
+    <div className="w-full h-full flex flex-col p-8 md:p-12 lg:p-16 bg-[var(--bg-secondary)] relative overflow-hidden">
+      <div className="max-w-6xl w-full flex flex-col justify-start h-full min-h-0 gap-6 lg:gap-8">
         
         {/* Header */}
-        <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-6">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)] font-heading max-w-4xl">
+        <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)] font-heading max-w-4xl">
             {data.title}
           </h2>
         </div>
         
-        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed shrink-0 max-w-5xl">
+        <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed shrink-0 max-w-4xl">
           {data.body}
         </p>
         
-        <div className="flex flex-wrap justify-start gap-3 shrink-0 mt-2">
+        <div className="flex flex-wrap justify-start gap-3 shrink-0">
           {data.patterns.map((pattern: string) => (
-            <div key={pattern} className="px-5 py-2.5 bg-[var(--bg-secondary)] border border-[var(--border-secondary)] rounded-lg shadow-sm text-sm font-medium text-[var(--text-primary)]">
+            <div key={pattern} className="px-4 py-2 bg-[var(--bg-primary)] border border-[var(--border-secondary)] rounded-full text-xs md:text-sm font-medium text-[var(--text-primary)] shadow-sm hover:border-blue-500/30 transition-colors duration-300">
               {pattern}
             </div>
           ))}
@@ -1362,49 +1380,95 @@ function SlideObsFinalStory({ project }: any) {
 }
 
 function SlideObsLearnings({ project }: any) {
-  const data = project.customObservanceStory.learnings;
+  const comparisons = [
+    {
+      before: "Information overload and weak visual hierarchy",
+      after: "Clear hierarchy balancing high-level overview with deep technical depth"
+    },
+    {
+      before: "Fragmented workflows scattered across isolated tools",
+      after: "A unified, seamless experience enriched with contextual information"
+    },
+    {
+      before: "Understanding project health required deep, manual investigation",
+      after: "At-a-glance project health metrics and instantly actionable insights"
+    },
+    {
+      before: "Complex 3D viewer exposing all capabilities simultaneously",
+      after: "Spatial-first viewer featuring progressive tool disclosure"
+    }
+  ];
+
   return (
-    <div className="w-full h-full flex flex-col p-6 lg:px-12 lg:py-10 bg-[var(--bg-secondary)] overflow-hidden">
-      <div className="max-w-6xl mx-auto w-full h-full flex flex-col min-h-0 gap-6 lg:gap-10">
+    <div className="w-full h-full flex flex-col p-8 md:p-12 lg:p-16 bg-[var(--bg-secondary)] overflow-hidden">
+      <div className="max-w-7xl w-full flex flex-col min-h-0 gap-6 lg:gap-8 mx-auto h-full justify-center">
         
-        {/* Header */}
-        <div className="flex flex-col gap-2 shrink-0 border-b border-[var(--border-secondary)] pb-6">
-          <span className="text-xs font-bold tracking-widest text-blue-500 uppercase">Conclusion</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
-            {data.title}
-          </h2>
-        </div>
-        
-        {/* Content */}
-        <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 overflow-y-auto pb-4">
-          {data.points.map((pt: any) => (
+        {/* Evolution Cards Grid */}
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 overflow-hidden pt-2">
+          {comparisons.map((item, i) => (
             <div 
-              key={pt.num} 
-              className="relative flex flex-col p-6 lg:p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-blue-500/30 hover:shadow-lg transition-all duration-300"
+              key={i} 
+              className="relative flex flex-col justify-center p-6 lg:p-8 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-secondary)] overflow-hidden group hover:border-[var(--border-primary)] hover:shadow-xl transition-all duration-500"
             >
-              {/* Decorative Pattern */}
-              <div 
-                className="absolute -right-6 -top-6 w-32 h-32 opacity-[0.03] group-hover:opacity-[0.06] group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-700 pointer-events-none" 
-                style={{ 
-                  backgroundImage: 'radial-gradient(circle at center, var(--text-primary) 1.5px, transparent 1.5px)', 
-                  backgroundSize: '12px 12px' 
-                }} 
-              />
+              {/* Subtle hover gradient fill */}
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               
-              <div className="relative z-10 flex flex-col h-full gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-sm font-bold font-heading shadow-sm group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors duration-300 shrink-0">
-                  {pt.num}
+              {/* Existing State */}
+              <div className="relative z-10 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0 border border-red-100 shadow-sm mt-1">
+                  <X className="w-5 h-5" strokeWidth={2.5} />
                 </div>
-                <h3 className="text-lg lg:text-xl font-bold text-[var(--text-primary)] font-heading leading-snug group-hover:text-blue-600 transition-colors duration-300">
-                  {pt.title}
-                </h3>
-                <p className="text-sm lg:text-base text-[var(--text-secondary)] leading-relaxed mt-auto font-medium">
-                  {pt.desc}
-                </p>
+                <div className="flex flex-col gap-1.5 mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-red-500/80">Existing</span>
+                  <p className="text-sm md:text-base text-[var(--text-secondary)] font-medium leading-relaxed">
+                    {item.before}
+                  </p>
+                </div>
               </div>
+
+              {/* Transformation Connector */}
+              <div className="relative z-10 flex flex-col items-start pl-[19px] my-2">
+                <div className="w-0.5 h-8 bg-gradient-to-b from-red-200 to-green-400 rounded-full opacity-60" />
+              </div>
+
+              {/* Redesigned State */}
+              <div className="relative z-10 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 border border-green-200 shadow-sm mt-1 transition-colors duration-500">
+                  <Check className="w-5 h-5" strokeWidth={3} />
+                </div>
+                <div className="flex flex-col gap-1.5 mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-green-600/80">Redesigned</span>
+                  <p className="text-base md:text-lg text-[var(--text-primary)] font-bold leading-relaxed">
+                    {item.after}
+                  </p>
+                </div>
+              </div>
+
             </div>
           ))}
         </div>
+        
+      </div>
+    </div>
+  );
+}
+
+
+function SlideThanks({ onClose }: { onClose?: () => void }) {
+  return (
+    <div className="w-full h-full flex flex-col justify-center items-center p-8 bg-[var(--bg-primary)] relative overflow-hidden">
+      
+      {/* Ambient Gradient Glows */}
+      <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[70%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] -right-[10%] w-[50%] h-[80%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6 text-center max-w-xl">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-tertiary)] font-heading pb-2">
+          Thank You
+        </h2>
+        <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] font-medium leading-relaxed max-w-md mx-auto">
+          Thanks for taking the time to review this case study. I'd love to chat more about this project or any future opportunities.
+        </p>
       </div>
     </div>
   );
@@ -1418,6 +1482,7 @@ function SlideObsLearnings({ project }: any) {
 function renderSlide(slide: Slide, project: Project, story: ProjectStory, mockups: ProjectMockups, onClose: () => void) {
   const props: SlideProps = { project, story, mockups };
   switch (slide.type) {
+    case 'thanks': return <SlideThanks onClose={onClose} />;
     case 'cover': return <SlideCover {...props} />;
     case 'context': return <SlideContext {...props} />;
     case 'problem': return <SlideProblem {...props} />;
@@ -1616,7 +1681,7 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
             initial="enter" 
             animate="center" 
             exit="exit" 
-            className={cn("absolute inset-0 overflow-y-auto overflow-x-hidden", isPresentMode && "cursor-pointer")} 
+            className={cn("absolute inset-0 overflow-hidden overflow-x-hidden", isPresentMode && "cursor-pointer")} 
             style={{ willChange: 'transform, opacity' }}
             onClick={(e) => {
               if (isPresentMode) {
