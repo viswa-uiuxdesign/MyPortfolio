@@ -58,6 +58,23 @@ export const projects: Project[] = [
         heading: 'Slow manual logging and disconnected blueprint coordination',
         body: 'Site inspectors spent 4+ hours daily manually documenting progress. With no central way to overlay actual site photos onto 3D models, discrepancies went unnoticed for weeks, causing costly re-work and major milestone delays.',
       },
+      competitors: [
+        {
+          name: "OpenSpace",
+          strengths: ["Strong 360° photo capture", "High market penetration", "Simple UI"],
+          weaknesses: ["Limited advanced 3D BIM overlay", "Expensive licensing", "Less focus on AI defect detection"]
+        },
+        {
+          name: "DroneDeploy",
+          strengths: ["Excellent aerial mapping", "Robust ecosystem", "Good reporting"],
+          weaknesses: ["Interior scans are secondary", "Steep learning curve for BIM", "Generic dashboards"]
+        },
+        {
+          name: "Procore",
+          strengths: ["Industry standard", "End-to-end management", "Massive integrations"],
+          weaknesses: ["Clunky 3D viewer", "Outdated UI patterns", "Lacks native AI visual intelligence"]
+        }
+      ],
       research: {
         heading: 'User Research & Insights',
         body: 'Shadowed site supervisors and project managers. We discovered that site inspectors did not need complex BIM editing features; they needed a simple tool to compare design vs. reality and log exceptions in under 3 clicks.',

@@ -55,7 +55,7 @@ type SlideType =
   | 'obs-logo' | 'obs-cover' | 'obs-context' | 'obs-challenge' | 'obs-pain-points' | 'obs-opportunity'
   | 'obs-overview-before' | 'obs-overview-after' | 'obs-dashboard-before' | 'obs-dashboard-after'
   | 'obs-scan-before' | 'obs-scan-after'
-  | 'obs-viewer-before' | 'obs-viewer-after' | 'obs-comparison-overview' | 'obs-comparison-dashboard' | 'obs-comparison-viewer' | 'obs-system' | 'obs-final-story' | 'obs-learnings' | 'thanks';
+  | 'obs-viewer-before' | 'obs-viewer-after' | 'obs-comparison-overview' | 'obs-comparison-dashboard' | 'obs-comparison-viewer' | 'obs-system' | 'obs-final-story' | 'obs-learnings' | 'obs-competitors' | 'thanks' | 'competitors';
 
 interface Slide { type: SlideType; label: string; }
 interface SlideProps { project: Project; story: ProjectStory; mockups: ProjectMockups; }
@@ -65,6 +65,8 @@ function buildSlides(project: Project, story: ProjectStory): Slide[] {
     return [
       { type: 'obs-logo', label: 'Logo' },
       { type: 'obs-context', label: 'Context' },
+      { type: 'obs-challenge', label: 'The Challenge' },
+      { type: 'obs-competitors', label: 'Competitor Analysis' },
       { type: 'obs-pain-points', label: 'Pain Points' },
       { type: 'obs-overview-before', label: 'Overview: Before' },
       { type: 'obs-overview-after', label: 'Overview: After' },
@@ -1475,6 +1477,72 @@ function SlideThanks({ onClose }: { onClose?: () => void }) {
 }
 
 
+function SlideObsCompetitors({ project }: SlideProps) {
+  const comps = project.caseStudy.competitors;
+  if (!comps) return null;
+  return (
+    <div className="w-full h-full flex flex-col justify-start items-start lg:p-16 p-8 bg-[var(--bg-secondary)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-[var(--border-secondary)] bg-[size:64px_64px] opacity-10 pointer-events-none" />
+      <div className="max-w-7xl w-full flex flex-col min-h-0 gap-6 lg:gap-8 mx-auto h-full">
+        <div className="shrink-0">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 mb-6">
+            <Microscope className="w-6 h-6" strokeWidth={2.5} />
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
+            Competitor Analysis
+          </h2>
+          <p className="mt-4 text-base md:text-lg text-[var(--text-secondary)] max-w-3xl font-medium leading-relaxed">
+            We evaluated the leading construction technology platforms to identify UX gaps and positioning opportunities for Observance.
+          </p>
+        </div>
+
+        <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-3 gap-6 overflow-hidden pt-2">
+          {comps.map((c, i) => (
+            <div key={i} className="flex flex-col bg-[var(--bg-primary)] rounded-3xl p-6 lg:p-8 border border-[var(--border-secondary)] hover:border-[var(--border-primary)] transition-all hover:shadow-xl group">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 text-lg uppercase">
+                  {c.name.substring(0, 1)}
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] font-heading">{c.name}</h3>
+              </div>
+              
+              <div className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2 scrollbar-hide">
+                <div>
+                  <h4 className="text-sm font-semibold tracking-widest uppercase text-green-600 mb-3 flex items-center gap-2">
+                    <Check className="w-4 h-4" /> Strengths
+                  </h4>
+                  <ul className="flex flex-col gap-2">
+                    {c.strengths.map((s, idx) => (
+                      <li key={idx} className="text-sm md:text-base text-[var(--text-secondary)] flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" />
+                        <span className="leading-relaxed font-medium">{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <h4 className="text-sm font-semibold tracking-widest uppercase text-red-500 mb-3 flex items-center gap-2">
+                    <X className="w-4 h-4" /> Weaknesses
+                  </h4>
+                  <ul className="flex flex-col gap-2">
+                    {c.weaknesses.map((w, idx) => (
+                      <li key={idx} className="text-sm md:text-base text-[var(--text-secondary)] flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-2 shrink-0" />
+                        <span className="leading-relaxed font-medium">{w}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─────────────────────────────────────────
 // 7. Slide Renderer
 // ─────────────────────────────────────────
@@ -1504,6 +1572,7 @@ function renderSlide(slide: Slide, project: Project, story: ProjectStory, mockup
     case 'obs-cover': return <SlideObsCover {...props} />;
     case 'obs-context': return <SlideObsContext {...props} />;
     case 'obs-challenge': return <SlideObsChallenge {...props} />;
+    case 'obs-competitors': return <SlideObsCompetitors {...props} />;
     case 'obs-pain-points': return <SlideObsPainPoints {...props} />;
     case 'obs-opportunity': return <SlideObsOpportunity {...props} />;
     case 'obs-overview-before': return <SlideObsOverviewBefore {...props} />;

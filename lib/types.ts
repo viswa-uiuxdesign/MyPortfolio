@@ -14,9 +14,17 @@ export interface CaseStudySection {
   bullets?: string[];
 }
 
+export interface Competitor {
+  name: string;
+  logo?: string;
+  strengths: string[];
+  weaknesses: string[];
+}
+
 export interface CaseStudy {
   overview: CaseStudySection;
   problem: CaseStudySection;
+  competitors?: Competitor[];
   research: CaseStudySection;
   uxProcess: CaseStudySection;
   uiDesign: CaseStudySection;
