@@ -1481,63 +1481,69 @@ function SlideObsCompetitors({ project }: SlideProps) {
   const comps = project.caseStudy.competitors;
   if (!comps) return null;
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start lg:p-16 p-8 bg-[var(--bg-secondary)] relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid-[var(--border-secondary)] bg-[size:64px_64px] opacity-10 pointer-events-none" />
-      <div className="max-w-7xl w-full flex flex-col min-h-0 gap-6 lg:gap-8 mx-auto h-full">
-        <div className="shrink-0">
+    <div className="w-full h-full flex flex-col md:flex-row bg-[var(--bg-secondary)] overflow-hidden">
+      {/* Left Pane - Title */}
+      <div className="w-full md:w-1/3 p-8 lg:p-16 flex flex-col justify-center border-r border-[var(--border-secondary)] bg-[var(--bg-primary)] relative">
+        <div className="absolute inset-0 bg-grid-[var(--border-secondary)] bg-[size:32px_32px] opacity-20 pointer-events-none" />
+        <div className="relative z-10">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 mb-6">
             <Microscope className="w-6 h-6" strokeWidth={2.5} />
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)] font-heading">
             Competitor Analysis
           </h2>
-          <p className="mt-4 text-base md:text-lg text-[var(--text-secondary)] max-w-3xl font-medium leading-relaxed">
+          <p className="mt-6 text-sm md:text-base text-[var(--text-secondary)] font-medium leading-relaxed">
             We evaluated the leading construction technology platforms to identify UX gaps and positioning opportunities for Observance.
           </p>
         </div>
+      </div>
 
-        <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-3 gap-6 overflow-hidden pt-2">
-          {comps.map((c, i) => (
-            <div key={i} className="flex flex-col bg-[var(--bg-primary)] rounded-3xl p-6 lg:p-8 border border-[var(--border-secondary)] hover:border-[var(--border-primary)] transition-all hover:shadow-xl group">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 text-lg uppercase">
-                  {c.name.substring(0, 1)}
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] font-heading">{c.name}</h3>
+      {/* Right Pane - Content */}
+      <div className="w-full md:w-2/3 p-8 lg:p-16 flex flex-col justify-center gap-4 lg:gap-6 bg-[var(--bg-secondary)] h-full overflow-hidden">
+        {comps.map((c, i) => (
+          <div key={i} className="flex flex-col xl:flex-row bg-[var(--bg-primary)] rounded-2xl p-5 lg:p-6 border border-[var(--border-secondary)] hover:border-[var(--border-primary)] transition-all hover:shadow-lg group items-start xl:items-center gap-6 xl:gap-8 shrink-0">
+            {/* Competitor Name */}
+            <div className="flex items-center gap-4 xl:w-1/4 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 text-sm uppercase shrink-0">
+                {c.name.substring(0, 1)}
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-[var(--text-primary)] font-heading leading-tight">{c.name}</h3>
+            </div>
+            
+            {/* Strengths & Weaknesses Grid */}
+            <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-6 xl:gap-8">
+              {/* Strengths */}
+              <div>
+                <h4 className="text-xs font-semibold tracking-widest uppercase text-green-600 mb-2.5 flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5" /> Strengths
+                </h4>
+                <ul className="flex flex-col gap-1.5">
+                  {c.strengths.map((s, idx) => (
+                    <li key={idx} className="text-xs md:text-sm text-[var(--text-secondary)] flex items-start gap-2">
+                      <span className="w-1 h-1 rounded-full bg-green-500 mt-1.5 shrink-0 opacity-70" />
+                      <span className="leading-snug font-medium">{s}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
               
-              <div className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2 scrollbar-hide">
-                <div>
-                  <h4 className="text-sm font-semibold tracking-widest uppercase text-green-600 mb-3 flex items-center gap-2">
-                    <Check className="w-4 h-4" /> Strengths
-                  </h4>
-                  <ul className="flex flex-col gap-2">
-                    {c.strengths.map((s, idx) => (
-                      <li key={idx} className="text-sm md:text-base text-[var(--text-secondary)] flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" />
-                        <span className="leading-relaxed font-medium">{s}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div>
-                  <h4 className="text-sm font-semibold tracking-widest uppercase text-red-500 mb-3 flex items-center gap-2">
-                    <X className="w-4 h-4" /> Weaknesses
-                  </h4>
-                  <ul className="flex flex-col gap-2">
-                    {c.weaknesses.map((w, idx) => (
-                      <li key={idx} className="text-sm md:text-base text-[var(--text-secondary)] flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-2 shrink-0" />
-                        <span className="leading-relaxed font-medium">{w}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* Weaknesses */}
+              <div>
+                <h4 className="text-xs font-semibold tracking-widest uppercase text-red-500 mb-2.5 flex items-center gap-1.5">
+                  <X className="w-3.5 h-3.5" /> Weaknesses
+                </h4>
+                <ul className="flex flex-col gap-1.5">
+                  {c.weaknesses.map((w, idx) => (
+                    <li key={idx} className="text-xs md:text-sm text-[var(--text-secondary)] flex items-start gap-2">
+                      <span className="w-1 h-1 rounded-full bg-red-500 mt-1.5 shrink-0 opacity-70" />
+                      <span className="leading-snug font-medium">{w}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
