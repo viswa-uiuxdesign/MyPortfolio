@@ -99,9 +99,9 @@ export function ProjectsSection({
   return (
     <div className="flex flex-col gap-8">
       {/* ── Header and Tabs in the Same Row ── */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
         {/* Left: Title & Description */}
-        <div className="flex flex-col gap-1 max-w-md">
+        <div className="flex flex-col gap-1 max-w-md shrink-0">
           <h2
             className="text-heading-xl text-[var(--text-primary)] font-heading"
             style={{ fontFamily: 'var(--font-heading)' }}
@@ -111,12 +111,14 @@ export function ProjectsSection({
         </div>
 
         {/* Right: Segmented Control Tabs */}
-        <div className="flex-shrink-0">
-          <SegmentedControl
-            options={filterOptions}
-            value={activeFilter}
-            onChange={onFilterChange}
-          />
+        <div className="w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide -mx-2 px-2 md:mx-0 md:px-0">
+          <div className="min-w-max">
+            <SegmentedControl
+              options={filterOptions}
+              value={activeFilter}
+              onChange={onFilterChange}
+            />
+          </div>
         </div>
       </div>
 

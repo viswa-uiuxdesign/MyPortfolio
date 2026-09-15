@@ -1600,7 +1600,101 @@ function renderSlide(slide: Slide, project: Project, story: ProjectStory, mockup
 }
 
 // ─────────────────────────────────────────
-// 8. CaseStudyPresentation — Main Export
+// 8. Fixed 16:9 Scaled Slide Container
+// ─────────────────────────────────────────
+
+function ScaledSlideContainer({ children }: { children: React.ReactNode }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  // Hardcoded 16:9 internal resolution for perfect design preservation
+  const INTERNAL_WIDTH = 1280;
+  const INTERNAL_HEIGHT = 720;
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (!containerRef.current) return;
+      const { clientWidth, clientHeight } = containerRef.current;
+      // Calculate how much we need to scale to fit within the viewport
+      const scaleX = clientWidth / INTERNAL_WIDTH;
+      const scaleY = clientHeight / INTERNAL_HEIGHT;
+      // Use Math.min to ensure the entire slide fits (letterboxing)
+      setScale(Math.min(scaleX, scaleY));
+    };
+
+    const observer = new ResizeObserver(() => {
+      updateScale();
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 flex items-center justify-center bg-black/5 overflow-hidden">
+      <div 
+        style={{ 
+          width: INTERNAL_WIDTH, 
+          height: INTERNAL_HEIGHT, 
+          transform: `scale(${scale})`, 
+          transformOrigin: 'center center' 
+        }} 
+        className="relative shrink-0 overflow-hidden bg-[var(--surface)] shadow-2xl"
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────
+// 9. Portrait Orientation Prompt
+// ─────────────────────────────────────────
+
+function PortraitOrientationPrompt() {
+  const [isPortrait, setIsPortrait] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortraitNow = window.innerHeight > window.innerWidth;
+      const isMobileWidth = window.innerWidth <= 768 || window.innerHeight <= 768;
+      
+      setIsPortrait(isPortraitNow);
+      setIsMobile(isMobileWidth);
+    };
+
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    return () => window.removeEventListener('resize', checkOrientation);
+  }, []);
+
+  if (!isPortrait || !isMobile) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--surface-elevated)] backdrop-blur-xl p-8 text-center text-[var(--text-primary)]">
+      <div className="w-20 h-20 mb-8 relative flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: [-90, 0, 0, -90] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-12 h-20 border-4 border-current rounded-xl flex items-center justify-center relative"
+        >
+          <div className="w-1 h-1 rounded-full bg-current absolute bottom-2" />
+        </motion.div>
+      </div>
+      <h3 className="text-2xl font-bold font-heading mb-4">Please rotate your device</h3>
+      <p className="text-[var(--text-secondary)] font-medium max-w-xs leading-relaxed">
+        This case study presentation is designed as a fixed 16:9 canvas and is best experienced in landscape mode.
+      </p>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────
+// 10. CaseStudyPresentation — Main Export
 // ─────────────────────────────────────────
 
 interface CaseStudyPresentationProps {
@@ -1722,22 +1816,23 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
   );
 
   return (
-    <div ref={containerRef} className="flex flex-col h-full bg-[var(--surface)]">
+    <div ref={containerRef} className="flex flex-col h-full bg-[var(--surface)] relative">
+      <PortraitOrientationPrompt />
       {/* Header */}
-      <div className="flex-none flex items-center justify-between gap-4 px-4 md:px-6 border-b border-[var(--border-primary)] bg-[var(--surface-elevated)]" style={{ height: '52px' }}>
+      <div className="flex-none flex items-center justify-between gap-4 px-4 md:px-6 border-b border-[var(--border-primary)] bg-[var(--surface-elevated)] min-h-[52px]">
         <div className="flex items-center gap-1.5 min-w-0 flex-1">
           <span className="text-sm font-semibold text-[var(--text-primary)] truncate">{project.title}</span>
         </div>
         <div className="flex items-center gap-1.5 min-w-[100px] justify-end">
-          <button type="button" onClick={toggleFullscreen} title={isPresentMode ? 'Exit Present Mode (P)' : 'Present Mode (P)'} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-all cursor-pointer group">
-            {isPresentMode ? <Minimize2 className="w-3.5 h-3.5 -mr-0.5" /> : <Maximize2 className="w-3.5 h-3.5 -mr-0.5" />}
+          <button type="button" onClick={toggleFullscreen} title={isPresentMode ? 'Exit Present Mode (P)' : 'Present Mode (P)'} className="flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] transition-all cursor-pointer group">
+            {isPresentMode ? <Minimize2 className="w-4 h-4 md:w-3.5 md:h-3.5 -mr-0.5" /> : <Maximize2 className="w-4 h-4 md:w-3.5 md:h-3.5 -mr-0.5" />}
             <span className="hidden md:inline">{isPresentMode ? 'Exit' : 'Present'}</span>
             <span className="hidden xl:flex items-center justify-center max-w-0 opacity-0 overflow-hidden group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-0.5 transition-all duration-300 ease-out">
               <kbd className="inline-flex items-center justify-center h-[18px] px-1 bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full text-[9px] font-sans font-medium text-[var(--text-tertiary)] shadow-sm uppercase shrink-0">P</kbd>
             </span>
           </button>
-          <button type="button" onClick={onClose} className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold text-[var(--text-secondary)] hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer border border-transparent hover:border-red-100 group">
-            <X className="w-3.5 h-3.5 -mr-0.5" />
+          <button type="button" onClick={onClose} className="flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 gap-1 px-3 py-1.5 rounded-full text-xs font-semibold text-[var(--text-secondary)] hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer border border-transparent hover:border-red-100 group">
+            <X className="w-4 h-4 md:w-3.5 md:h-3.5 -mr-0.5" />
             <span className="hidden sm:inline">Close</span>
             <span className="hidden xl:flex items-center justify-center max-w-0 opacity-0 overflow-hidden group-hover:max-w-[30px] group-hover:opacity-100 group-hover:ml-0.5 transition-all duration-300 ease-out">
               <kbd className="inline-flex items-center justify-center h-[18px] px-1 bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full text-[9px] font-sans font-medium text-[var(--text-tertiary)] shadow-sm group-hover:text-red-500 group-hover:border-red-200 shrink-0">Esc</kbd>
@@ -1748,29 +1843,31 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
 
       {/* Slide Canvas */}
       <div className="flex-1 relative overflow-hidden">
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div 
-            key={`${project.id}-${currentSlide}`} 
-            custom={direction} 
-            variants={slideVariants} 
-            initial="enter" 
-            animate="center" 
-            exit="exit" 
-            className={cn("absolute inset-0 overflow-hidden overflow-x-hidden", isPresentMode && "cursor-pointer")} 
-            style={{ willChange: 'transform, opacity' }}
-            onClick={(e) => {
-              if (isPresentMode) {
-                // don't advance if clicking on an interactive element like a button or link
-                const target = e.target as HTMLElement;
-                if (!target.closest('button') && !target.closest('a')) {
-                  nextSlide();
+        <ScaledSlideContainer>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div 
+              key={`${project.id}-${currentSlide}`} 
+              custom={direction} 
+              variants={slideVariants} 
+              initial="enter" 
+              animate="center" 
+              exit="exit" 
+              className={cn("absolute inset-0 overflow-hidden overflow-x-hidden", isPresentMode && "cursor-pointer")} 
+              style={{ willChange: 'transform, opacity' }}
+              onClick={(e) => {
+                if (isPresentMode) {
+                  // don't advance if clicking on an interactive element like a button or link
+                  const target = e.target as HTMLElement;
+                  if (!target.closest('button') && !target.closest('a')) {
+                    nextSlide();
+                  }
                 }
-              }
-            }}
-          >
-            {renderSlide(slide, project, story, mockups, onClose)}
-          </motion.div>
-        </AnimatePresence>
+              }}
+            >
+              {renderSlide(slide, project, story, mockups, onClose)}
+            </motion.div>
+          </AnimatePresence>
+        </ScaledSlideContainer>
       </div>
 
       {/* Footer */}
@@ -1788,13 +1885,13 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
                 transition={{ duration: 0.3 }}
                 className="flex items-center gap-1.5"
               >
-                <button type="button" onClick={() => onNavigate('prev')} disabled={!hasPrev} className={cn('flex items-center px-2 py-1.5 rounded-full text-xs font-semibold transition-all group', hasPrev ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] cursor-not-allowed opacity-40')}>
-                  <ChevronLeft className="w-4 h-4 shrink-0" />
-                  <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-[110px] group-hover:opacity-100 group-hover:ml-1 group-hover:mr-1 transition-all duration-300 ease-out whitespace-nowrap">Previous Project</span>
+                <button type="button" onClick={() => onNavigate('prev')} disabled={!hasPrev} className={cn('flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-2 py-1.5 rounded-full text-xs font-semibold transition-all group', hasPrev ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] cursor-not-allowed opacity-40')}>
+                  <ChevronLeft className="w-5 h-5 md:w-4 md:h-4 shrink-0" />
+                  <span className="hidden md:inline max-w-0 overflow-hidden opacity-0 group-hover:max-w-[110px] group-hover:opacity-100 group-hover:ml-1 group-hover:mr-1 transition-all duration-300 ease-out whitespace-nowrap">Previous Project</span>
                 </button>
-                <button type="button" onClick={() => onNavigate('next')} disabled={!hasNext} className={cn('flex items-center px-2 py-1.5 rounded-full text-xs font-semibold transition-all group', hasNext ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] cursor-not-allowed opacity-40')}>
-                  <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:mr-1 group-hover:ml-1 transition-all duration-300 ease-out whitespace-nowrap text-right">Next Project</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
+                <button type="button" onClick={() => onNavigate('next')} disabled={!hasNext} className={cn('flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-2 py-1.5 rounded-full text-xs font-semibold transition-all group', hasNext ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] cursor-not-allowed opacity-40')}>
+                  <span className="hidden md:inline max-w-0 overflow-hidden opacity-0 group-hover:max-w-[110px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 ease-out whitespace-nowrap">Next Project</span>
+                  <ChevronRight className="w-5 h-5 md:w-4 md:h-4 shrink-0" />
                 </button>
               </motion.div>
             ) : (
@@ -1828,22 +1925,22 @@ export function CaseStudyPresentation({ project, onClose, onNavigate, hasPrev, h
           </AnimatePresence>
 
           <div className="flex items-center gap-2">
-            <button type="button" onClick={prevSlide} disabled={isFirst} className={cn('flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all border group', !isFirst ? 'text-[var(--text-secondary)] border-[var(--border-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] border-transparent cursor-not-allowed opacity-30')}>
-              <ChevronLeft className="w-4 h-4 -ml-1" />
+            <button type="button" onClick={prevSlide} disabled={isFirst} className={cn('flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all border group', !isFirst ? 'text-[var(--text-secondary)] border-[var(--border-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)] cursor-pointer' : 'text-[var(--text-tertiary)] border-transparent cursor-not-allowed opacity-30')}>
+              <ChevronLeft className="w-5 h-5 md:w-4 md:h-4 -ml-1" />
               <span className="hidden sm:inline">Prev</span>
               <span className="hidden md:flex items-center justify-center max-w-0 opacity-0 overflow-hidden group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 ease-out">
                 <kbd className="inline-flex items-center justify-center h-5 px-1 bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full text-[9px] font-sans font-medium text-[var(--text-tertiary)] shadow-sm shrink-0">←</kbd>
               </span>
             </button>
             
-            <button type="button" onClick={isLast ? onClose : nextSlide} className={cn('flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all border group cursor-pointer', isLast ? 'text-[var(--primary)] border-[var(--primary)]/20 bg-[var(--primary-subtle)] hover:bg-[var(--primary-subtle)]/80' : 'text-[var(--text-secondary)] border-[var(--border-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)]')}>
+            <button type="button" onClick={isLast ? onClose : nextSlide} className={cn('flex items-center justify-center min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all border group cursor-pointer', isLast ? 'text-[var(--primary)] border-[var(--primary)]/20 bg-[var(--primary-subtle)] hover:bg-[var(--primary-subtle)]/80' : 'text-[var(--text-secondary)] border-[var(--border-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)]')}>
               <span className="hidden sm:inline">{isLast ? 'Finish' : 'Next'}</span>
               {!isLast && (
                 <span className="hidden md:flex items-center justify-center max-w-0 opacity-0 overflow-hidden group-hover:max-w-[24px] group-hover:opacity-100 group-hover:mr-1 transition-all duration-300 ease-out">
                   <kbd className="inline-flex items-center justify-center h-5 px-1 bg-[var(--surface-primary)] border border-[var(--border-primary)] rounded-full text-[9px] font-sans font-medium text-[var(--text-tertiary)] shadow-sm shrink-0">→</kbd>
                 </span>
               )}
-              {isLast ? <ArrowUpRight className="w-4 h-4 -mr-1" /> : <ChevronRight className="w-4 h-4 -mr-1" />}
+              {isLast ? <Check className="w-5 h-5 md:w-4 md:h-4 -mr-1" /> : <ChevronRight className="w-5 h-5 md:w-4 md:h-4 -mr-1" />}
             </button>
           </div>
         </div>

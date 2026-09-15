@@ -61,20 +61,18 @@ export default function Home() {
   const hasNext = currentIndex < filteredProjects.length - 1;
 
   return (
-    <main
-      className="min-h-dvh"
-    >
+    <main className="min-h-dvh">
       {/* ── Two-column layout on desktop ── 
-          Left: Hero (aside) takes 28% (roughly a 30% reduction from initial 40% [2fr of 5fr]).
-          Right: Projects (section) takes 72%.
+          Left: Hero (aside) takes 25%.
+          Right: Projects (section) takes 75%.
       */}
       <div
         className="
-          mx-auto max-w-[1440px] px-6
-          lg:grid lg:grid-cols-[25%_75%] lg:gap-0 lg:min-h-dvh
+          mx-auto max-w-[1440px] px-4 md:px-6
+          lg:grid lg:grid-cols-[30%_70%] xl:grid-cols-[25%_75%] lg:gap-0 lg:min-h-dvh
         "
       >
-        {/* Left: Hero — wrapped in relative so Spiderman can hang at the top-right */}
+        {/* Desktop: Fixed sticky sidebar */}
         <div className="relative hidden lg:block">
           <aside
             className="
@@ -88,19 +86,20 @@ export default function Home() {
             <Hero />
           </aside>
         </div>
-        {/* Mobile: plain aside without the decorative spiderman */}
+
+        {/* Tablet / Mobile: Inline hero banner */}
         <aside
-          className="pt-12 pb-12 lg:hidden"
+          className="pt-8 md:pt-12 pb-8 md:pb-12 lg:hidden"
         >
           <Hero />
         </aside>
 
         {/* Right: Projects 
-            Using pt-12 (48px) for desktop/mobile instead of py-16 / lg:py-16.
-            Added px-4 and -mx-4 to allow card shadows on the edges to spill over safely.
+            Using pt-8/md:pt-12 for tablet/mobile.
+            Added negative margins to allow card shadows on edges.
         */}
         <section
-          className="pt-12 pb-12 lg:pl-12 lg:overflow-y-auto lg:max-h-dvh px-4 -mx-4"
+          className="pb-12 lg:pt-12 lg:pl-12 lg:overflow-y-auto lg:max-h-dvh px-2 md:px-4 -mx-2 md:-mx-4"
           aria-label="Projects section"
         >
           <ProjectsSection
